@@ -1,0 +1,1 @@
+# rgenerator-template-example
