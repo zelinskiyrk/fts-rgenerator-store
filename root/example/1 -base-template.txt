@@ -9,6 +9,6 @@ Lets try some examples:
 What your favorite programming language - {{example1.favoriteLanguage}}
 
 2 - You can use any nesting of an object. Here an example:
-What city do you live in? - {{example1.location.country}} {{example1.location.city}}
+What city do you live in? - {{example1.location.country}}, {{example1.location.city}}
 
 Here is base example. Lets see, how to use loops. Go to example #2.
