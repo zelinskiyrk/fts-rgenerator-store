@@ -1,3 +1,41 @@
 {
-"example" : "string"
+  "example1": {
+    "yourName": "John",
+    "favoriteLanguage": "Java",
+    "location": {
+      "country": "USA",
+      "city": "San Francisco"
+    }
+  },
+
+  "example2": {
+    "languages": [
+      {
+        "number": 1,
+        "name": "Java"
+      },{
+        "number": 2,
+        "name": "JavaScript"
+      },{
+        "number": 3,
+        "name": "Swift"
+      },{
+        "number": 4,
+        "name": "Kotlin"
+      }
+    ]
+  },
+
+  "example3": {
+    "showSecretText": true
+  },
+
+  "example4": {
+    "fileName": "simple-file-name"
+  },
+
+  "example5": {
+    "dirName": "simple-directory-name",
+    "fileName": "simple-file-name"
+  }
 }
