@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.bson.types.ObjectId;
 
 @Getter
 @Setter
@@ -13,6 +12,7 @@ import org.bson.types.ObjectId;
 @AllArgsConstructor
 @ApiModel(value = "{{entity.nameUpper}}Response", description = "{{entity.nameUpper}} data (for search and List)")
 public class {{entity.nameUpper}}Response {
-        protected String id;
-        protected String {{entity.name}}Name;
+    {{#entityProperties}}
+        protected {{type}} {{name}};
+    {{/entityProperties}}
 }

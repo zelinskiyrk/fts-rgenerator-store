@@ -1,7 +1,6 @@
 package {{path}}.{{entity.name}}.controller;
 
 import {{path}}.base.api.response.OkResponse;
-import {{path}}.city.exception.CityNotExistException;
 import {{path}}.{{entity.name}}.api.request.Add{{entity.nameUpper}}Request;
 import {{path}}.{{entity.name}}.api.request.{{entity.nameUpper}}Request;
 import {{path}}.{{entity.name}}.api.response.{{entity.nameUpper}}Response;
@@ -31,7 +30,7 @@ public class {{entity.nameUpper}}ApiController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "{{entity.nameUpper}} already exist")
     })
-    public OkResponse<{{entity.nameUpper}}Response> add{{entity.nameUpper}}(@RequestBody {{entity.nameUpper}}Request request) throws {{entity.nameUpper}}ExistException, CityNotExistException {
+    public OkResponse<{{entity.nameUpper}}Response> add{{entity.nameUpper}}(@RequestBody Add{{entity.nameUpper}}Request request) throws {{entity.nameUpper}}ExistException {
         return OkResponse.of({{entity.nameUpper}}Mapping.getInstance().getResponse().convert(
                 {{entity.name}}ApiService.add{{entity.nameUpper}}(request)));
     }
@@ -61,23 +60,23 @@ public class {{entity.nameUpper}}ApiController {
         ));
     }
 
-    @PutMapping(StreetApiRoutes.ADMIN_BY_ID)
+    @PutMapping({{entity.nameUpper}}ApiRoutes.ADMIN_BY_ID)
     @ApiOperation(value = "Update {{entity.name}} by ID", notes = "Use this if you want to update {{entity.name}}. You need administrator rights to update a {{entity.name}}.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 400, message = "Street ID invalid")
+            @ApiResponse(code = 400, message = "{{entity.nameUpper}} ID invalid")
     })
-    public OkResponse<StreetResponse> updateById(
+    public OkResponse<{{entity.nameUpper}}Response> updateById(
             @ApiParam(value = "User ID")
             @PathVariable String id,
-            @RequestBody StreetRequest {{entity.name}}Request
-            ) throws StreetNotExistException {
-        return OkResponse.of(StreetMapping.getInstance().getResponse().convert(
+            @RequestBody {{entity.nameUpper}}Request {{entity.name}}Request
+            ) throws {{entity.nameUpper}}NotExistException {
+        return OkResponse.of({{entity.nameUpper}}Mapping.getInstance().getResponse().convert(
                 {{entity.name}}ApiService.update({{entity.name}}Request)
         ));
     }
 
-    @DeleteMapping(StreetApiRoutes.ADMIN_BY_ID)
+    @DeleteMapping({{entity.nameUpper}}ApiRoutes.ADMIN_BY_ID)
     @ApiOperation(value = "Delete {{entity.name}} by ID", notes = "Use this if you want to delete {{entity.name}}. You need administrator rights to delete a {{entity.name}}.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success")

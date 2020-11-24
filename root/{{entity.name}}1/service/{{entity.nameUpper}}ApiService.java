@@ -1,11 +1,9 @@
 package {{path}}.{{entity.name}}.service;
 
-import {{path}}.city.exception.CityNotExistException;
-import {{path}}.city.repository.CityRepository;
+import {{path}}.{{entity.name}}.api.request.Add{{entity.nameUpper}}Request;
 import {{path}}.{{entity.name}}.api.request.{{entity.nameUpper}}Request;
 import {{path}}.{{entity.name}}.exception.{{entity.nameUpper}}ExistException;
 import {{path}}.{{entity.name}}.exception.{{entity.nameUpper}}NotExistException;
-import {{path}}.{{entity.name}}.mapping.{{entity.nameUpper}}Mapping;
 import {{path}}.{{entity.name}}.model.{{entity.nameUpper}}Doc;
 import {{path}}.{{entity.name}}.repository.{{entity.nameUpper}}Repository;
 import lombok.RequiredArgsConstructor;
@@ -21,16 +19,12 @@ import java.util.Optional;
 public class {{entity.nameUpper}}ApiService {
     private final {{entity.nameUpper}}Repository {{entity.name}}Repository;
     private final MongoTemplate mongoTemplate;
-    private final CityRepository cityRepository;
 
-    public {{entity.nameUpper}}Doc add{{entity.nameUpper}}({{entity.nameUpper}}Request request)
-            throws {{entity.nameUpper}}ExistException, CityNotExistException {
-        if ({{entity.name}}Repository.findBy{{entity.nameUpper}}Name(request.get{{entity.nameUpper}}Name()).isPresent() == true){
+    public {{entity.nameUpper}}Doc add{{entity.nameUpper}}(Add{{entity.nameUpper}}Request request) throws {{entity.nameUpper}}ExistException {
+        if ({{entity.name}}Repository.find{{entity.nameUpper}}DocBy{{entity.nameUpper}}Name(request.get{{entity.nameUpper}}()).isPresent() == true){
             throw new {{entity.nameUpper}}ExistException();
         }
-
         {{entity.nameUpper}}Doc {{entity.name}}Doc = {{entity.nameUpper}}Mapping.getInstance().getRequest().convert(request);
-        {{entity.name}}Repository.save({{entity.name}}Doc);
         return {{entity.name}}Doc;
     }
 
@@ -48,11 +42,8 @@ public class {{entity.nameUpper}}ApiService {
             throw new {{entity.nameUpper}}NotExistException();
         }
 
-        {{entity.nameUpper}}Doc oldDoc = {{entity.name}}DocOptional.get();
-
         {{entity.nameUpper}}Doc {{entity.name}}Doc = {{entity.nameUpper}}Mapping.getInstance().getRequest().convert(request);
         {{entity.name}}Doc.setId(request.getId());
-        {{entity.name}}Doc.setCityId(oldDoc.getCityId());
         {{entity.name}}Repository.save({{entity.name}}Doc);
 
         return {{entity.name}}Doc;
