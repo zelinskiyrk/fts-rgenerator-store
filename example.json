@@ -1,9 +1,9 @@
 {
   "path": "com.zelinskiyrk.store",
   "entity": {
-    "name": "city",
-    "nameUpper": "City",
-    "restApiUrl": "city"
+    "name": "street",
+    "nameUpper": "Street",
+    "restApiUrl": "street"
   },
   "entityProperties": [
     {
@@ -13,8 +13,8 @@
       "level": "private"
     },
     {
-      "name": "cityName",
-      "nameUpper": "CityName",
+      "name": "streetName",
+      "nameUpper": "StreetName",
       "type": "String",
       "level": "private"
     }

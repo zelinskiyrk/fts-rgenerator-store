@@ -9,6 +9,7 @@ import org.bson.types.ObjectId;
 @Setter
 @ApiModel(value = "{{entity.nameUpper}}Request", description = "Model for update {{entity.name}}")
 public class {{entity.nameUpper}}Request {
-        private ObjectId id;
-        private String {{entity.name}}Name;
+    {{#entityProperties}}
+        {{level}} {{type}} {{name}};
+    {{/entityProperties}}
 }

@@ -17,8 +17,9 @@ public class {{entity.nameUpper}}Mapping {
         @Override
         public {{entity.nameUpper}}Doc convert({{entity.nameUpper}}Request {{entity.name}}Request){
             return {{entity.nameUpper}}Doc.builder()
-                    .id({{entity.name}}Request.getId())
-                    .{{entity.name}}Name({{entity.name}}Request.get{{entity.nameUpper}}Name())
+                {{#entityProperties}}
+                    .{{name}}({{entity.name}}Request.get{{nameUpper}}())
+                {{/entityProperties}}
                     .build();
         }
 
@@ -33,8 +34,9 @@ public class {{entity.nameUpper}}Mapping {
         @Override
         public {{entity.nameUpper}}Response convert({{entity.nameUpper}}Doc {{entity.name}}Doc){
             return {{entity.nameUpper}}Response.builder()
-                    .id({{entity.name}}Doc.getId().toString())
-                    .{{entity.name}}Name({{entity.name}}Doc.get{{entity.nameUpper}}Name())
+                {{#entityProperties}}
+                    .{{name}}({{entity.name}}Request.get{{nameUpper}}())
+                {{/entityProperties}}
                     .build();
         }
 

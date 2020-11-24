@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface {{entity.nameUpper}}Repository extends MongoRepository<{{entity.nameUpper}}Doc, ObjectId> {
-    public Optional<{{entity.nameUpper}}Doc> findBy{{entity.nameUpper}}Name(String {{entity.name}}Name);
+    public Optional<{{entity.nameUpper}}Doc> find{{entity.nameUpper}}DocBy{{entity.nameUpper}}Name(String {{entity.name}});
 }
