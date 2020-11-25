@@ -1,7 +1,7 @@
 package {{path}}.{{entity.name}}.service;
 
-import {{path}}.city.exception.CityNotExistException;
-import {{path}}.city.repository.CityRepository;
+import {{path}}.base.api.request.SearchRequest;
+import {{path}}.base.api.response.SearchResponse;
 import {{path}}.{{entity.name}}.api.request.{{entity.nameUpper}}Request;
 import {{path}}.{{entity.name}}.exception.{{entity.nameUpper}}ExistException;
 import {{path}}.{{entity.name}}.exception.{{entity.nameUpper}}NotExistException;
@@ -11,6 +11,8 @@ import {{path}}.{{entity.name}}.repository.{{entity.nameUpper}}Repository;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,11 +23,11 @@ import java.util.Optional;
 public class {{entity.nameUpper}}ApiService {
     private final {{entity.nameUpper}}Repository {{entity.name}}Repository;
     private final MongoTemplate mongoTemplate;
-    private final CityRepository cityRepository;
 
     public {{entity.nameUpper}}Doc add{{entity.nameUpper}}({{entity.nameUpper}}Request request)
             throws {{entity.nameUpper}}ExistException, CityNotExistException {
-        if ({{entity.name}}Repository.findBy{{entity.nameUpper}}Name(request.get{{entity.nameUpper}}Name()).isPresent() == true){
+
+        if ({{entity.name}}Repository.findByCityIdAnd{{entity.nameUpper}}Name(request.getCityId(), request.get{{entity.nameUpper}}Name()).isPresent() == true){
             throw new {{entity.nameUpper}}ExistException();
         }
 
@@ -38,8 +40,17 @@ public class {{entity.nameUpper}}ApiService {
         return {{entity.name}}Repository.findById(id);
     }
 
-    public List<{{entity.nameUpper}}Doc> search(){
-        return {{entity.name}}Repository.findAll();
+    public SearchResponse<{{entity.nameUpper}}Doc> search(
+            SearchRequest request
+    ){
+        Query query = new Query();
+        if (request.getCityId() != null) {
+            query.addCriteria(Criteria.where("cityId").is(request.getCityId()));
+        }
+        Long count = mongoTemplate.count(query, {{entity.nameUpper}}Doc.class);
+
+        List<{{entity.nameUpper}}Doc> {{entity.name}}Docs = mongoTemplate.find(query, {{entity.nameUpper}}Doc.class);
+        return SearchResponse.of({{entity.name}}Docs, count);
     }
 
     public {{entity.nameUpper}}Doc update({{entity.nameUpper}}Request request) throws {{entity.nameUpper}}NotExistException {
@@ -52,7 +63,6 @@ public class {{entity.nameUpper}}ApiService {
 
         {{entity.nameUpper}}Doc {{entity.name}}Doc = {{entity.nameUpper}}Mapping.getInstance().getRequest().convert(request);
         {{entity.name}}Doc.setId(request.getId());
-        {{entity.name}}Doc.setCityId(oldDoc.getCityId());
         {{entity.name}}Repository.save({{entity.name}}Doc);
 
         return {{entity.name}}Doc;

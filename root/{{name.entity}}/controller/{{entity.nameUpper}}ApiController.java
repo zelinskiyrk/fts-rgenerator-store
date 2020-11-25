@@ -1,8 +1,8 @@
 package {{path}}.{{entity.name}}.controller;
 
+import {{path}}.base.api.request.SearchRequest;
 import {{path}}.base.api.response.OkResponse;
-import {{path}}.city.exception.CityNotExistException;
-import {{path}}.{{entity.name}}.api.request.Add{{entity.nameUpper}}Request;
+import {{path}}.base.api.response.SearchResponse;
 import {{path}}.{{entity.name}}.api.request.{{entity.nameUpper}}Request;
 import {{path}}.{{entity.name}}.api.response.{{entity.nameUpper}}Response;
 import {{path}}.{{entity.name}}.exception.{{entity.nameUpper}}ExistException;
@@ -17,7 +17,6 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,7 +42,7 @@ public class {{entity.nameUpper}}ApiController {
             @ApiResponse(code = 404, message = "{{entity.nameUpper}} not found")
     })
     public OkResponse<{{entity.nameUpper}}Response> byId(
-            @ApiParam(value = "User ID")
+            @ApiParam(value = "{{entity.nameUpper}} ID")
             @PathVariable ObjectId id) throws ChangeSetPersister.NotFoundException {
         return OkResponse.of({{entity.nameUpper}}Mapping.getInstance().getResponse().convert(
                 {{entity.name}}ApiService.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new)
@@ -55,35 +54,37 @@ public class {{entity.nameUpper}}ApiController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success")
     })
-    public OkResponse<List<{{entity.nameUpper}}Response>> search(){
+    public OkResponse<SearchResponse<{{entity.nameUpper}}Response>> search(
+            @ModelAttribute SearchRequest request
+            ){
         return OkResponse.of({{entity.nameUpper}}Mapping.getInstance().getSearch().convert(
-                {{entity.name}}ApiService.search()
+                {{entity.name}}ApiService.search(request)
         ));
     }
 
-    @PutMapping(StreetApiRoutes.ADMIN_BY_ID)
+    @PutMapping({{entity.nameUpper}}ApiRoutes.ADMIN_BY_ID)
     @ApiOperation(value = "Update {{entity.name}} by ID", notes = "Use this if you want to update {{entity.name}}. You need administrator rights to update a {{entity.name}}.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 400, message = "Street ID invalid")
+            @ApiResponse(code = 400, message = "{{entity.nameUpper}} ID invalid")
     })
-    public OkResponse<StreetResponse> updateById(
-            @ApiParam(value = "User ID")
+    public OkResponse<{{entity.nameUpper}}Response> updateById(
+            @ApiParam(value = "{{entity.nameUpper}} ID")
             @PathVariable String id,
-            @RequestBody StreetRequest {{entity.name}}Request
-            ) throws StreetNotExistException {
-        return OkResponse.of(StreetMapping.getInstance().getResponse().convert(
+            @RequestBody {{entity.nameUpper}}Request {{entity.name}}Request
+            ) throws {{entity.nameUpper}}NotExistException {
+        return OkResponse.of({{entity.nameUpper}}Mapping.getInstance().getResponse().convert(
                 {{entity.name}}ApiService.update({{entity.name}}Request)
         ));
     }
 
-    @DeleteMapping(StreetApiRoutes.ADMIN_BY_ID)
+    @DeleteMapping({{entity.nameUpper}}ApiRoutes.ADMIN_BY_ID)
     @ApiOperation(value = "Delete {{entity.name}} by ID", notes = "Use this if you want to delete {{entity.name}}. You need administrator rights to delete a {{entity.name}}.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success")
     })
     public OkResponse<String> deleteById(
-            @ApiParam(value = "User ID")
+            @ApiParam(value = "{{entity.nameUpper}} ID")
             @PathVariable ObjectId id){
         {{entity.name}}ApiService.delete(id);
         return OkResponse.of(HttpStatus.OK.toString());

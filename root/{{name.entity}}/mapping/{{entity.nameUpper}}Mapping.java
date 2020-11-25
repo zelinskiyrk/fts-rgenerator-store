@@ -1,5 +1,6 @@
 package {{path}}.{{entity.name}}.mapping;
 
+import {{path}}.base.api.response.SearchResponse;
 import {{path}}.base.mapping.BaseMapping;
 import {{path}}.{{entity.name}}.api.request.{{entity.nameUpper}}Request;
 import {{path}}.{{entity.name}}.api.response.{{entity.nameUpper}}Response;
@@ -44,16 +45,19 @@ public class {{entity.nameUpper}}Mapping {
         }
     }
 
-    public static class SearchMapping extends BaseMapping<List<{{entity.nameUpper}}Doc>, List<{{entity.nameUpper}}Response>>{
+    public static class SearchMapping extends BaseMapping<SearchResponse<{{entity.nameUpper}}Doc>, SearchResponse<{{entity.nameUpper}}Response>>{
         private ResponseMapping responseMapping = new ResponseMapping();
 
         @Override
-        public List<{{entity.nameUpper}}Response> convert(List<{{entity.nameUpper}}Doc> {{entity.name}}Docs) {
-            return {{entity.name}}Docs.stream().map(responseMapping::convert).collect(Collectors.toList());
+        public SearchResponse<{{entity.nameUpper}}Response> convert(SearchResponse<{{entity.nameUpper}}Doc> searchResponse) {
+            return SearchResponse.of(
+                    searchResponse.getList().stream().map(responseMapping::convert).collect(Collectors.toList()),
+                    searchResponse.getCount()
+            );
         }
 
         @Override
-        public List<{{entity.nameUpper}}Doc> unmapping(List<{{entity.nameUpper}}Response> {{entity.name}}Responses) {
+        public SearchResponse<{{entity.nameUpper}}Doc> unmapping(SearchResponse<{{entity.nameUpper}}Response> {{entity.name}}Responses) {
             throw new RuntimeException("don't use this");
         }
     }
